@@ -45,7 +45,7 @@ public class DummyControllerTest {
 		user.setEmail(requestUser.getEmail());
 		 
 		//userRepository.save(user);
-		
+		System.out.println();
 		return null;
 	}
 	
