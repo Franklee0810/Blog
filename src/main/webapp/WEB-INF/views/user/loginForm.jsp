@@ -8,7 +8,7 @@
 
 <!-- 메인 -->
 <div class="container">
-	<form action="/action_page.php">
+	<form>
 	  <div class="form-group">
 	    <label for="username">아이디</label>
 	    <input type="text" class="form-control" placeholder="이름 입력하세요" id="username">
@@ -23,15 +23,14 @@
 	    <label class="form-check-label">
 	      <input class="form-check-input" type="checkbox"> Remember me
 	    </label>
-	  </div>
-	  <button type="submit" class="btn btn-primary">로그인 완료</button>
+	  </div> 
 	</form>
-	 
+	<button id="btn-login" class="btn btn-primary">로그인</button>
 </div>
 <!-- 메인 -->
 
 
-
+<script src="/blog/js/user.js"></script>
 <!-- 푸터 -->
 <%@ include file="../layout/footer.jsp" %>
 <!-- 푸터 -->
