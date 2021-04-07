@@ -26,6 +26,8 @@ public class UserService {
 		String rawPassword = user.getPassword(); //Original Password
 		
 		String encPassword = encoder.encode(rawPassword); //Hashed Password
+		user.setPassword(encPassword);
+		
 		user.setRole(RoleType.USER);
 		userRepository.save(user);
 	 System.out.println();
