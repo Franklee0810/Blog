@@ -2,6 +2,7 @@ package com.cos.blog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	
+	//시큐리티가 대신 로그인해주는데 password를 가로채기를 해서, 해당 패스워드가 뭘로 해쉬암호화 되어서 회원가입되었는지 알아야 로그인할때 DB에 있는 해쉬랑 비교할 수 있음
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(null).passwordEncoder(encodePWD()); // userDetailService 의 파라미터에게 알려줘야함 어떻게 해쉬암호화 되었는지를..
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
