@@ -29,6 +29,7 @@ public class UserService {
 		user.setRole(RoleType.USER);
 		userRepository.save(user);
 	 System.out.println();
+	 System.out.println();
 	}
 
 	
