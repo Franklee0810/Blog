@@ -30,7 +30,7 @@
 <!-- 메인 -->
 
 
-<script src="/blog/js/user.js"></script>
+<script src="/js/user.js"></script>
 <!-- 푸터 -->
 <%@ include file="../layout/footer.jsp" %>
 <!-- 푸터 -->
