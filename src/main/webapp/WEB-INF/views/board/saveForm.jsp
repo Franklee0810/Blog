@@ -11,7 +11,7 @@
 <div class="container">
 	<form>
 	  <div class="form-group">
-	    <label for="title">아이디</label>
+	    <label for="title">제목</label>
 	    <input type="text" class="form-control" placeholder="제목 입력하세요" id="title">
 	  </div>
   
