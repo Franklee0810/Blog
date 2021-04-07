@@ -12,6 +12,10 @@ import com.cos.blog.model.User;
 // 스프링 시큐리티의 고유한 세션 저장소에 바인딩함 . 
 public class PrincipalDetail implements UserDetails {
 	private User user;
+	
+	public PrincipalDetail(User user) {
+		this.user = user;
+	}
     
 	@Override
 	public String getPassword() { // 
@@ -35,14 +39,12 @@ public class PrincipalDetail implements UserDetails {
 
 	@Override
 	public boolean isCredentialsNonExpired() { //비밀번호가 만료되지 않았는지 리턴 (true : 만료안됨)
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled() { //계정이 활성화(사용가능)인지 리턴 (true : 활성화)
-		 
-		return false;
+	public boolean isEnabled() { //계정이 활성화(사용가능)인지 리턴 (true : 활성화) 
+		return true;
 	} 
 	
 	@Override
@@ -50,7 +52,7 @@ public class PrincipalDetail implements UserDetails {
 		
 		Collection<GrantedAuthority> collectors = new ArrayList<>();
 	 
-		collectors.add(()->{return "ROLE_" + user.getRole();});
+		collectors.add(()->{return "ROLE_" + user.getRole();}); //ROLE_ 은 반드시 붙여야함 스프링 약속 
 		return collectors;
 	}
 }

@@ -1,5 +1,6 @@
 package com.cos.blog.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,12 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.cos.blog.config.auth.PrincipalDetailService;
+
 @Configuration //빈등록
 @EnableWebSecurity //시큐리티 필터로 등록 설정
 @EnableGlobalMethodSecurity(prePostEnabled = true) //특정 주소로 접근하면 권한 및 인증 미리 체크 
 // 저 위에 세개는 세트
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private PrincipalDetailService principalDetailService;
+	
 	@Bean //Ioc 설정 이제 스프링이 리턴값 관리 	
 	public BCryptPasswordEncoder encodePWD() {
 		return new BCryptPasswordEncoder();
@@ -24,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	//시큐리티가 대신 로그인해주는데 password를 가로채기를 해서, 해당 패스워드가 뭘로 해쉬암호화 되어서 회원가입되었는지 알아야 로그인할때 DB에 있는 해쉬랑 비교할 수 있음
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(null).passwordEncoder(encodePWD()); // userDetailService 의 파라미터에게 알려줘야함 어떻게 해쉬암호화 되었는지를..
+		auth.userDetailsService(principalDetailService).passwordEncoder(encodePWD()); // userDetailService 의 파라미터에게 알려줘야함 어떻게 해쉬암호화 되었는지를..
 	}
 	
 	@Override
