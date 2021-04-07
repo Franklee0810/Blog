@@ -9,27 +9,14 @@
 <!-- 메인 -->
 <div class="container">
 
+<c:forEach var="board" items="${boards}">
 	<div class="card m-2">
 	  <div class="card-body">
-	    <h4 class="card-title">제목 부분</h4>
- 	    <a href="#" class="btn btn-primary">상세</a>
+	    <h4 class="card-title">${board.title}</h4>
+	    <a href="#" class="btn btn-primary">상세</a>
 	  </div>
 	</div>
-	
-	<div class="card m-2">
-	  <div class="card-body">
-	    <h4 class="card-title">제목 부분</h4>
- 	    <a href="#" class="btn btn-primary">상세</a>
-	  </div>
-	</div>
-	
-	<div class="card m-2">
-	  <div class="card-body">
-	    <h4 class="card-title">제목 부분</h4>
- 	    <a href="#" class="btn btn-primary">상세</a>
-	  </div>
-	</div>
-	
+</c:forEach>	 
 </div>
 <!-- 메인 -->
 

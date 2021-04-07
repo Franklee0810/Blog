@@ -15,7 +15,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -31,7 +30,6 @@ public class Board {
 	@Lob // 대용량 데이터 전용 
 	private String content;
 	
-	@ColumnDefault("0")
 	private int count; //조회수
 	
 	@ManyToOne(fetch = FetchType.EAGER)  //many는 보드 user은 one , 즉 한명의 유저가 여러 개의 게시물을 쓸 수 있음 // Eager은 무조건 가져와야 하는 의미로 
