@@ -20,7 +20,7 @@
 	
 	<div>
 		<input type="hidden" id="id" value="${board.id}"/>
-		작성자 : <span><i>${board.user.username}</i></span>
+		Username : <span><i>${board.user.username}</i></span>
 	</div>
 	
 	<br/>
