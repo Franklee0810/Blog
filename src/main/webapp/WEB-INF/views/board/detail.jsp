@@ -20,7 +20,8 @@
 	
 	<div>
 		<input type="hidden" id="id" value="${board.id}"/>
-		Username : <span><i>${board.user.username}</i></span>
+		<div>Username : <i>${board.user.username}</i></div>
+		<div>Date : <i>${board.user.createDate}</i></div>
 	</div>
 	
 	<br/>
