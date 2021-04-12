@@ -52,7 +52,7 @@ public class BoardService {
 		
 		board.setTitle(requestboard.getTitle());
 		board.setContent(requestboard.getContent());
-		
+		System.out.println("check체크 ");
 	}
  
 	 
