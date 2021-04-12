@@ -11,9 +11,10 @@
 <div class="container"> 
 	<h1>음</h1>
 	<button class="btn btn-dark" onclick="history.back()">목록</button>  
-	<button id="btn-update" class="btn btn-dark">수정</button>
+	
 	
 	<c:if test="${board.user.id == principal.user.id}">
+		<a href="/board/${board.id}/updateForm" id="btn-update" class="btn btn-dark">수정</a>
 		<button id="btn-delete" class="btn btn-dark">삭제</button>
 	</c:if>
 	<br/><br/>
