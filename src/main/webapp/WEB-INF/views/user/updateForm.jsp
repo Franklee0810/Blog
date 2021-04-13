@@ -9,9 +9,10 @@
 <!-- 메인 -->
 <div class="container">
 	<form>
+	<input type="hidden" id="id" value="${principal.user.id}"/>
 	  <div class="form-group">
 	    <label for="username">아이디</label>
-	    <input type="text" class="form-control" placeholder="이름 입력하세요" id="username">
+	    <input type="text" value="${principal.user.username}" class="form-control" placeholder="이름 입력하세요" id="username" readonly>
 	  </div>
 	
 	  <div class="form-group">
@@ -21,11 +22,11 @@
 	  
 	  <div class="form-group">
 	    <label for="email">이메일</label>
-	    <input type="email" class="form-control" placeholder="이메일 입력하세요" id="email">
+	    <input type="email" value="${principal.user.email}" class="form-control" placeholder="이메일 입력하세요" id="email">
 	  </div>
 	 
 	</form>
-	<button id="btn-save" class="btn btn-primary">회원가입</button>
+	<button id="btn-update" class="btn btn-primary">회원수정</button>
 	 
 </div>
 <!-- 메인 -->
