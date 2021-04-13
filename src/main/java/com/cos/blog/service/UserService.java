@@ -2,6 +2,10 @@ package com.cos.blog.service;
 
  
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +23,7 @@ public class UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+ 
 	@Transactional // 성공하면 커밋 될 것임 실패하면 롤백 
 	public void 회원가입(User user) {
 		
@@ -33,6 +37,22 @@ public class UserService {
 	 System.out.println();
 	 System.out.println();
 	 System.out.println();
+	}
+
+	@Transactional 
+	public void 회원수정(User user) {
+		//영속성 컨텍스트에 user 오브젝트 영속화하고, 영속화된 user 오브젝트 수정할 것임.
+		//영속화하려면 일단 첫번째로 기존 id에 따른 회원 정보를 가져오고, 가져온 값에 새로운 비밀번호만 수정하면 됨 
+		User user_persistence = userRepository.findById(user.getId())
+				.orElseThrow(()->{
+					return new IllegalArgumentException("회원찾기 실패");
+				});
+		String rawPassword = user.getPassword();
+		String encPassword = encoder.encode(rawPassword);
+		user_persistence.setPassword(encPassword);
+		user_persistence.setEmail(user.getEmail());
+		
+		
 	}
 
 	
