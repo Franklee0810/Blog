@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.cos.blog.model.OAuthToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 public class UserController {
 
@@ -35,7 +40,7 @@ public class UserController {
 	@GetMapping("auth/kakao/callback")
 	public @ResponseBody String kakaoCallback(String code) { //@ResponseBody는 데이터를 리턴해주는 컨트롤러 함수로 지정 
 		
-		RestTemplate rt = new RestTemplate();
+		RestTemplate rt = new RestTemplate(); // http 요청을 하기 위한 라이브러리 
 		
 		//HttpHeader 오브젝트 생성
 		HttpHeaders headers = new HttpHeaders();
@@ -59,7 +64,17 @@ public class UserController {
 				String.class
 				);
 		
-		return "카카오 인증 완료";
+		ObjectMapper objectMapper = new ObjectMapper();
+		OAuthToken oauthToken = null;
+		try {
+			oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+		} catch (JsonMappingException e) { 
+			e.printStackTrace();
+		} catch (JsonProcessingException e) { 
+			e.printStackTrace();
+		}
+		System.out.println(oauthToken.getAccess_token());
+		return response.getBody();
 	}
 	
 	
