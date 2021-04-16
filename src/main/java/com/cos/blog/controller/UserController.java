@@ -111,7 +111,7 @@ public class UserController {
 		}
 		
 		System.out.println(kakaoProfile.getId());
-		System.out.println(kakaoProfile.getKakao_Account().getEmail());
+		System.out.println(kakaoProfile.getKakao_account().getEmail());
 		return response2.getBody();
 	}
 	
