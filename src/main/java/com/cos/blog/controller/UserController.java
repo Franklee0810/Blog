@@ -1,9 +1,16 @@
 package com.cos.blog.controller;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -13,6 +20,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cos.blog.model.KakaoProfile;
 import com.cos.blog.model.OAuthToken;
+import com.cos.blog.model.User;
+import com.cos.blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +29,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class UserController {
 
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserService userService;
+	
 	//인증이 안된 사용자들이 출입 할 수 있게끔 auth 경로 붙임. 
 	
 	@GetMapping("/auth/joinForm")
@@ -110,9 +126,38 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
+		
+		//User 오브젝트 : username, passwrod, email
 		System.out.println(kakaoProfile.getId());
 		System.out.println(kakaoProfile.getKakao_account().getEmail());
-		return response2.getBody();
+		
+		System.out.println("블로그 유저네임 : " + kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+		System.out.println("블로그 이메일 : " + kakaoProfile.getKakao_account().getEmail());
+		
+		
+		UUID tempPassword = UUID.randomUUID();
+		System.out.println("패스워드 : " + tempPassword);
+		
+		//카카오 정보 user에 넣기
+		User kakaoUser = new User();
+		kakaoUser.setUsername(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+		kakaoUser.setEmail(kakaoProfile.getKakao_account().getEmail());
+		kakaoUser.setPassword(tempPassword.toString());
+		
+		User originUser = userService.회원찾기(kakaoUser.getUsername());
+		
+		if(originUser.getUsername() == null) {
+			System.out.println("기존회원이 아닙니다.");
+			userService.회원가입(kakaoUser);
+		} 
+		
+		//회원가입이 되어 있다면 로그인 처리 
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), kakaoUser.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		return "redirect:/";
+		
+		
 	}
 	
 	
