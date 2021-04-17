@@ -33,6 +33,8 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // ENUM
 	
+	private String oauth; //카카오 로그인한지 아닌지 여부 
+	
 	@CreationTimestamp // 시간 자동입력 
 	private Timestamp createDate;
 
@@ -43,7 +45,7 @@ public class User {
 	 
 	 
 
-	public User(int id, String username, String password, String email, RoleType role, Timestamp createDate) {
+	public User(int id, String username, String password, String email, RoleType role, Timestamp createDate, String oauth) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -51,10 +53,17 @@ public class User {
 		this.email = email;
 		this.role = role;
 		this.createDate = createDate;
+		this.oauth = oauth;
 	}
 
+	public String getOauth() {
+		return oauth;
+	}
 
-
+	public void setOauth(String oauth) {
+		this.oauth = oauth;
+	}
+	
 	public int getId() {
 		return id;
 	}

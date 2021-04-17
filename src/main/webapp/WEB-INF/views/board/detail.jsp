@@ -9,7 +9,7 @@
 
 <!-- 메인 -->
 <div class="container"> 
-	<h1>음</h1>
+	
 	<button class="btn btn-dark" onclick="history.back()">목록</button>  
 	
 	

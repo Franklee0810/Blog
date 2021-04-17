@@ -47,10 +47,16 @@ public class UserService {
 				.orElseThrow(()->{
 					return new IllegalArgumentException("회원찾기 실패");
 				});
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		user_persistence.setPassword(encPassword);
-		user_persistence.setEmail(user.getEmail());
+		
+		//유효성 체크 
+		if(user_persistence.getOauth() == null || user_persistence.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			user_persistence.setPassword(encPassword);
+			user_persistence.setEmail(user.getEmail());
+		} 
+	
+		
 		
 		
 	}

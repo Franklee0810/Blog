@@ -3,6 +3,7 @@ package com.cos.blog.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,7 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class UserController {
-
+	
+	@Value("${cos.key}")
+	private String cosKey;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -55,7 +58,7 @@ public class UserController {
 	}
 	
 	@GetMapping("auth/kakao/callback")
-	public @ResponseBody String kakaoCallback(String code) { //@ResponseBody는 데이터를 리턴해주는 컨트롤러 함수로 지정 
+	public String kakaoCallback(String code) { 
 		
 		RestTemplate rt = new RestTemplate(); // http 요청을 하기 위한 라이브러리 
 		
@@ -133,16 +136,14 @@ public class UserController {
 		
 		System.out.println("블로그 유저네임 : " + kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
 		System.out.println("블로그 이메일 : " + kakaoProfile.getKakao_account().getEmail());
-		
-		
-		UUID tempPassword = UUID.randomUUID();
-		System.out.println("패스워드 : " + tempPassword);
+		System.out.println("블로그 패스워드 : " + cosKey);
 		
 		//카카오 정보 user에 넣기
 		User kakaoUser = new User();
 		kakaoUser.setUsername(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
 		kakaoUser.setEmail(kakaoProfile.getKakao_account().getEmail());
-		kakaoUser.setPassword(tempPassword.toString());
+		kakaoUser.setPassword(cosKey);
+		kakaoUser.setOauth("kakao");
 		
 		User originUser = userService.회원찾기(kakaoUser.getUsername());
 		
@@ -151,8 +152,8 @@ public class UserController {
 			userService.회원가입(kakaoUser);
 		} 
 		
-		//회원가입이 되어 있다면 로그인 처리 
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), kakaoUser.getPassword()));
+		//회원가입이 되어 있다면 자동 로그인 처리 
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return "redirect:/";
