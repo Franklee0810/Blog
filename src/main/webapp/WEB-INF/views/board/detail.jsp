@@ -10,12 +10,12 @@
 <!-- 메인 -->
 <div class="container"> 
 	
-	<button class="btn btn-dark" onclick="history.back()">목록</button>  
+	<button class="btn btn-dark" onclick="history.back()">list</button>  
 	
 	
 	<c:if test="${board.user.id == principal.user.id}">
-		<a href="/board/${board.id}/updateForm" class="btn btn-dark">수정</a>
-		<button id="btn-delete" class="btn btn-dark">삭제</button>
+		<a href="/board/${board.id}/updateForm" class="btn btn-dark">modify</a>
+		<button id="btn-delete" class="btn btn-dark">delete</button>
 	</c:if>
 	<br/><br/>
 	
@@ -36,6 +36,28 @@
 	  </div>
 	  	<hr/>
   		<hr/>  
+  		
+  	<!-- 댓글 구현 -->
+	<div class="card">
+		<div class="card-body"><textarea class="form-control" rows="1"></textarea></div>
+		<div class="card-footer"><button class="btn btn-dark">submit</button></div>
+	</div>
+  	<br>
+  	<div class="card">
+  		<div class="card-header">review</div>
+	  	<ul id="reply--box" class="list-group">
+		  	<c:forEach var="reply" items="${board.reply}">
+		  		 <li id="reply--1" class="list-group-item d-flex justify-content-between">
+			 	<div>${reply.content}</div>
+			 	<div class="d-flex">
+			 		<div class="font-italic">username : ${reply.user.username} &nbsp;</div>
+			 		<button class="btn btn-dark">delete</button>
+			 	</div>
+			 </li>
+		  	</c:forEach> 
+		</ul>
+  	</div>
+  	
 </div>
 <!-- 메인 -->
  
