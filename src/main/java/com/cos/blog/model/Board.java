@@ -4,6 +4,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +40,7 @@ public class Board {
 	@JoinColumn(name="userId")
 	private User user; 
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //mappedBy FK 아님// DB에 컬럼 생성 X 
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //mappedBy FK 아님// DB에 컬럼 생성 X 
 	@JsonIgnoreProperties({"board"})
 	@OrderBy("id desc")
 	private List<Reply> replys; //이렇게하면 board 테이블만 가져오면 유저랑 리플까지 한꺼번에 다 가져올 수 있음 ! 

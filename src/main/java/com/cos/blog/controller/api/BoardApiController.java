@@ -41,10 +41,18 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
-	@PostMapping("/api/board/{id}/reply")
+	@PostMapping("/api/board/{boardId}/reply")
 	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal) {
 	  
+		
 		boardservice.댓글쓰기(principal.getUser(), boardId, reply);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+	
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId){
+		boardservice.댓글삭제(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+	
 }

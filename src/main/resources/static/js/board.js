@@ -106,6 +106,22 @@ let index = {
 		
 	},
 	
+	replyDelete:function(boardId, replyId) {
+		 
+		$.ajax({
+			type:"DELETE",
+			url:`/api/board/${boardId}/reply/${replyId}`,  
+			dataType:"json"  
+		}).done(function(resp){
+			console.log(resp);
+			alert("댓글 삭제 완료");
+			location.href=`/board/${boardId}`;
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		});  
+		
+	},
+	
 }
 
 index.init();

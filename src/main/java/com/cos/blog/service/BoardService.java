@@ -75,6 +75,12 @@ public class BoardService {
 		
 		replyRepository.save(requestReply);
 	}
+	
+	@Transactional
+	public void 댓글삭제(int replyId) {
+		 replyRepository.deleteById(replyId);
+		
+	}
  
 	 
 }
