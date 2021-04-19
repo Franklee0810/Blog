@@ -14,8 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Board {
@@ -37,24 +40,12 @@ public class Board {
 	private User user; 
 	
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //mappedBy FK 아님// DB에 컬럼 생성 X 
-	private List<Reply> reply; //이렇게하면 board 테이블만 가져오면 유저랑 리플까지 한꺼번에 다 가져올 수 있음 ! 
+	@JsonIgnoreProperties({"board"})
+	@OrderBy("id desc")
+	private List<Reply> replys; //이렇게하면 board 테이블만 가져오면 유저랑 리플까지 한꺼번에 다 가져올 수 있음 ! 
 	
 	@CreationTimestamp
 	private Timestamp createDate;
-
-	
-	
-	public Board() {}
-	
-	public Board(int id, String title, String content, int count, User user, Timestamp createDate) {
-	 
-		this.id = id;
-		this.title = title;
-		this.content = content;
-		this.count = count;
-		this.user = user;
-		this.createDate = createDate;
-	}
 
 	public int getId() {
 		return id;
@@ -96,6 +87,14 @@ public class Board {
 		this.user = user;
 	}
 
+	public List<Reply> getReplys() {
+		return replys;
+	}
+
+	public void setReplys(List<Reply> replys) {
+		this.replys = replys;
+	}
+
 	public Timestamp getCreateDate() {
 		return createDate;
 	}
@@ -103,7 +102,23 @@ public class Board {
 	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
+
+	public Board(int id, String title, String content, int count, User user, List<Reply> replys, Timestamp createDate) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.count = count;
+		this.user = user;
+		this.replys = replys;
+		this.createDate = createDate;
+	}
+
+	public Board() {
+		// TODO Auto-generated constructor stub
+	}
 	
+	 
 	
 	
 }

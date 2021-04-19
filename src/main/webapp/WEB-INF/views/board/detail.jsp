@@ -39,18 +39,21 @@
   		
   	<!-- 댓글 구현 -->
 	<div class="card">
-		<div class="card-body"><textarea class="form-control" rows="1"></textarea></div>
-		<div class="card-footer"><button class="btn btn-dark">submit</button></div>
+		<form>
+			<input type="hidden" id="boardId" value="${board.id}"/>
+			<div class="card-body"><textarea id="reply-content" class="form-control" rows="1"></textarea></div>
+			<div class="card-footer"><button type="button" id="btn-reply-save" class="btn btn-dark">submit</button></div>
+		</form>
 	</div>
   	<br>
   	<div class="card">
   		<div class="card-header">review</div>
 	  	<ul id="reply--box" class="list-group">
-		  	<c:forEach var="reply" items="${board.reply}">
+		  	<c:forEach var="reply" items="${board.replys}">
 		  		 <li id="reply--1" class="list-group-item d-flex justify-content-between">
 			 	<div>${reply.content}</div>
 			 	<div class="d-flex">
-			 		<div class="font-italic">username : ${reply.user.username} &nbsp;</div>
+			 		<div class="font-italic"> username : ${reply.user.username} &nbsp;</div>
 			 		<button class="btn btn-dark">delete</button>
 			 	</div>
 			 </li>

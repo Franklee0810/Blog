@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.blog.model.Board;
+import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
+import com.cos.blog.repository.ReplyRepository;
 
 //스프링이 컴포넌트 스캔 통해서 빈에 등록 IOC
 @Service
 public class BoardService {
-
+	
+	@Autowired
+	private ReplyRepository replyRepository;
+	 
 	@Autowired
 	private BoardRepository boardRepository;
  
@@ -53,6 +58,22 @@ public class BoardService {
 		board.setTitle(requestboard.getTitle());
 		board.setContent(requestboard.getContent());
 		System.out.println("check체크 ");
+	}
+	
+	
+	@Transactional
+	public void 댓글쓰기(User user, int boardId, Reply requestReply) {
+		
+		Board board = boardRepository.findById(boardId)
+				.orElseThrow(()->{
+					return new IllegalArgumentException("댓글 쓰기 실패"); //영속화 완료 
+				});
+		
+		requestReply.setUser(user);
+		requestReply.setBoard(board);
+		 
+		
+		replyRepository.save(requestReply);
 	}
  
 	 
