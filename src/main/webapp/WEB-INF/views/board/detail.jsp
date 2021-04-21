@@ -46,6 +46,10 @@
 		</form>
 	</div>
   	<br>
+  	
+  	
+  	
+  	<!-- 댓글 목록 -->
   	<div class="card">
   		<div class="card-header">review</div>
 	  	<ul id="reply-box" class="list-group">
